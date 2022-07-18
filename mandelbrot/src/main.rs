@@ -1,5 +1,6 @@
 use num::complex::Complex;
 
+
 fn calculate_mandelbrot (
     max_iters: usize,
     x_min: f64,
