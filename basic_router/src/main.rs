@@ -1,8 +1,16 @@
 use iron::prelude::*;
 use iron::status;
-use mime;
 use router::Router;
 
+fn main() {
+    let mut router = Router::new();
+
+    router.get("/", get_form, "root");
+    println!("Serving on localhost 3000");
+    let _ = Iron::new(router)
+    .http("localhost:3000")
+    .expect("could not start iron service");
+}
 
 fn response(status: status::Status, msg: String) -> Response {
     let mut r = Response::new();
@@ -10,7 +18,6 @@ fn response(status: status::Status, msg: String) -> Response {
     r.set_mut(msg);
     r
 }
-
 
 fn response_ok(msg: String) -> IronResult<Response> {
     let mut r = response(status::Ok, msg);
@@ -28,15 +35,4 @@ fn get_form(_request: &mut Request) -> IronResult<Response> {
         "#
         .to_string(),
     )
-}
-
-
-fn main() {
-    let mut router = Router::new();
-
-    router.get("/", get_form, "root");
-    println!("Serving on localhost 3000");
-    let _ = Iron::new(router)
-    .http("localhost:3000")
-    .expect("could not start iron service");
 }
